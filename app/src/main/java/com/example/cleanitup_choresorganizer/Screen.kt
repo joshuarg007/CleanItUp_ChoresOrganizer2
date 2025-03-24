@@ -1,4 +1,4 @@
-package com.example.cleanitup_choresorganizer
+package com.example.cleanitup_choresorganizer.ui
 
 sealed class Screen(val route: String) {
     object Dashboard : Screen("dashboard")

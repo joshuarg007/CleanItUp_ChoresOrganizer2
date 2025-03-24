@@ -1,8 +1,9 @@
-package com.example.cleanitup_choresorganizer
+package com.example.cleanitup_choresorganizer.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -12,18 +13,25 @@ import androidx.navigation.NavController
 fun TaskListScreen(navController: NavController) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
                 title = { Text("Task List") }
             )
         }
-    ) { padding ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(padding)
-                .padding(16.dp)
+                .padding(innerPadding)
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = { navController.popBackStack() }) {
-                Text("Back to Dashboard")
+            Text("This is the Task List Screen")
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = {
+                navController.navigate("dashboard")
+            }) {
+                Text("Go to Dashboard")
             }
         }
     }
