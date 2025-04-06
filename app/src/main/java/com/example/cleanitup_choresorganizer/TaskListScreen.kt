@@ -3,6 +3,8 @@ package com.example.cleanitup_choresorganizer
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +20,14 @@ fun TaskListScreen(navController: NavHostController, viewModel: ChoreViewModel) 
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Chore List") })
+            TopAppBar(
+                title = { Text("Chore List") },
+                actions = {
+                    IconButton(onClick = { viewModel.removeCompletedChores() }) {
+                        Icon(Icons.Default.Delete, contentDescription = "Remove Completed")
+                    }
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {

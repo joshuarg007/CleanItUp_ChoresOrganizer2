@@ -33,5 +33,7 @@ class ChoreViewModel : ViewModel() {
         _chores.remove(chore)
     }
 
-
+    fun removeCompletedChores() {
+        _chores.removeAll { it.isDone }
+    }
 }
