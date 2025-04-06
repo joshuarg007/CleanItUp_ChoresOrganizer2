@@ -36,4 +36,12 @@ class ChoreViewModel : ViewModel() {
     fun removeCompletedChores() {
         _chores.removeAll { it.isDone }
     }
+
+    fun toggleChoreDone(choreId: String, isDone: Boolean) {
+        val index = _chores.indexOfFirst { it.id == choreId }
+        if (index != -1) {
+            _chores[index] = _chores[index].copy(isDone = isDone)
+        }
+    }
+
 }

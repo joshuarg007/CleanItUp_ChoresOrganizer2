@@ -44,7 +44,12 @@ fun TaskListScreen(navController: NavHostController, viewModel: ChoreViewModel) 
                 .padding(16.dp)
         ) {
             items(chores) { chore ->
-                ChoreItem(chore)
+                ChoreItem(
+                    chore = chore,
+                    onCheckedChange = { isChecked: Boolean ->
+                        viewModel.toggleChoreDone(chore.id, isChecked)
+                    }
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
@@ -52,13 +57,25 @@ fun TaskListScreen(navController: NavHostController, viewModel: ChoreViewModel) 
 }
 
 @Composable
-fun ChoreItem(chore: Chore) {
+fun ChoreItem(chore: Chore, onCheckedChange: (Boolean) -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = chore.name, style = MaterialTheme.typography.titleMedium)
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = chore.name,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Checkbox(
+                checked = chore.isDone,
+                onCheckedChange = onCheckedChange
+            )
         }
     }
 }
