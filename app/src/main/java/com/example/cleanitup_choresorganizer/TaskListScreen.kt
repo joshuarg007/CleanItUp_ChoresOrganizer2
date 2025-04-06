@@ -6,7 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -17,6 +17,9 @@ import com.example.cleanitup_choresorganizer.viewmodel.ChoreViewModel
 @Composable
 fun TaskListScreen(navController: NavHostController, viewModel: ChoreViewModel) {
     val chores = viewModel.chores
+
+    var showDialog by remember { mutableStateOf(false) }
+    var newChoreName by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -31,12 +34,46 @@ fun TaskListScreen(navController: NavHostController, viewModel: ChoreViewModel) 
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                // Placeholder for future: Add Chore screen or dialog
+                showDialog = true
             }) {
                 Text("+")
             }
         }
     ) { padding ->
+
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
+                title = { Text("Add New Chore") },
+                text = {
+                    TextField(
+                        value = newChoreName,
+                        onValueChange = { newChoreName = it },
+                        label = { Text("Chore Name") }
+                    )
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        if (newChoreName.isNotBlank()) {
+                            viewModel.addChore(newChoreName.trim())
+                            newChoreName = ""
+                            showDialog = false
+                        }
+                    }) {
+                        Text("Add")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        showDialog = false
+                        newChoreName = ""
+                    }) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
+
         LazyColumn(
             contentPadding = padding,
             modifier = Modifier
